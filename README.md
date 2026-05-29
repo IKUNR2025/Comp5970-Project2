@@ -1,6 +1,7 @@
 # Comp5970 Project 2 - 2D Platformer
 
 This is a 2D platformer game made in Unity for COMP5970 Project 2.
+
 The game's name is Coin Adventure
 
 ## Features
