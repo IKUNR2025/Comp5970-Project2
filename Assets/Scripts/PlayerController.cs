@@ -6,11 +6,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 12f;
 
     private Rigidbody2D rb;
-    private bool isGrounded;
-
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
-    public LayerMask groundLayer;
+    private bool isGrounded = false;
 
     private GameManager gameManager;
 
@@ -31,13 +27,7 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
 
-        isGrounded = Physics2D.OverlapCircle(
-            groundCheck.position,
-            groundCheckRadius,
-            groundLayer
-        );
-
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
@@ -49,6 +39,22 @@ public class PlayerController : MonoBehaviour
         else if (moveInput < 0)
         {
             transform.localScale = new Vector3(-0.8f, 1.2f, 1f);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 
