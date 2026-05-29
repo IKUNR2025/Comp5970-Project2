@@ -8,6 +8,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded = false;
 
+    private int jumpCount = 0;
+    public int maxJumps = 2;
+
     private GameManager gameManager;
 
     void Start()
@@ -27,9 +30,10 @@ public class PlayerController : MonoBehaviour
 
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
 
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space) && jumpCount < maxJumps)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            jumpCount++;
         }
 
         if (moveInput > 0)
@@ -47,6 +51,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            jumpCount = 0;
         }
     }
 
